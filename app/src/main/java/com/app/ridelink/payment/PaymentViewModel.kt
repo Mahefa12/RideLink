@@ -206,21 +206,9 @@ class PaymentViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             try {
-                val request = SavePaymentMethodRequest(
-                    userId = userId,
-                    paymentMethodId = paymentMethodId,
-                    isDefault = isDefault
-                )
-                val response = paymentRepository.savePaymentMethod(request)
-                if (response.success) {
-                    _savedPaymentMethods.value = response.paymentMethods
-                    // TODO: Add analytics tracking for payment method saves
-                    // TODO: Show success toast to user
-                } else {
-                    _paymentState.value = PaymentState.Error(
-                        response.message ?: "Failed to save payment method"
-                    )
-                }
+                paymentRepository.savePaymentMethod(userId, paymentMethodId, isDefault)
+                // TODO: Add analytics tracking for payment method saves
+                // TODO: Show success toast to user
             } catch (e: Exception) {
                 _paymentState.value = PaymentState.Error(
                     e.message ?: "An error occurred while saving payment method"

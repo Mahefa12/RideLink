@@ -129,7 +129,7 @@ fun HomeScreen(
             driverName = "You",
             driverRating = 4.5,
             carModel = ride.vehicleModel ?: ride.vehicleType,
-            estimatedDuration = "N/A"
+            estimatedDuration = "N/A",
             fromLat = ride.originLatitude ?: 0.0,
             fromLng = ride.originLongitude ?: 0.0,
             toLat = ride.destinationLatitude ?: 0.0,

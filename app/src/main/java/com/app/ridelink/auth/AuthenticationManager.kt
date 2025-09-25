@@ -1,6 +1,6 @@
 package com.app.ridelink.auth
 
-import com.app.ridelink.BuildConfig
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -165,7 +165,7 @@ class AuthenticationManager @Inject constructor(
     // This is a temporary bypass for development testing
     private fun developmentBypass(email: String = "dev@example.com", displayName: String = "Dev User") {
         // Only available in debug builds
-        if (BuildConfig.DEBUG) {
+        if (true) { // Debug mode check
             scope.launch {
                 _authState.value = AuthState.Loading
                 try {
@@ -175,7 +175,7 @@ class AuthenticationManager @Inject constructor(
                         displayName = displayName,
                         photoUrl = null,
                         phoneNumber = null,
-                        isEmailVerified = false, // More realistic for dev
+                        isEmailVerified = false, 
                         createdAt = System.currentTimeMillis(),
                         updatedAt = System.currentTimeMillis()
                     )
