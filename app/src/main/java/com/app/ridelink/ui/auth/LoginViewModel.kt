@@ -68,18 +68,6 @@ class LoginViewModel @Inject constructor(
         }
     }
     
-    // Prototype bypass method
-    fun bypassLogin(email: String = "prototype@ridelink.com", displayName: String = "Prototype User") {
-        viewModelScope.launch {
-            _uiState.value = LoginUiState.Loading
-            try {
-                authenticationManager.bypassLogin(email, displayName)
-                _uiState.value = LoginUiState.Success("Bypass login successful!")
-            } catch (e: Exception) {
-                _uiState.value = LoginUiState.Error(
-                    e.message ?: "Bypass login failed"
-                )
-            }
-        }
-    }
+    // TODO: Add remember me functionality
+    // TODO: Add biometric authentication support
 }

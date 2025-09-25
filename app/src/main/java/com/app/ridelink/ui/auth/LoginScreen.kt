@@ -119,18 +119,6 @@ fun LoginScreen(
             }
 
             Spacer(modifier = Modifier.height(8.dp))
-            
-            // Prototype bypass button
-            OutlinedButton(
-                onClick = { viewModel.bypassLogin() },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = uiState !is LoginUiState.Loading,
-                colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = MaterialTheme.colorScheme.secondary
-                )
-            ) {
-                Text("🚀 Prototype Login (Bypass)")
-            }
 
             Spacer(modifier = Modifier.height(16.dp))
 

@@ -1,5 +1,6 @@
 package com.app.ridelink.auth
 
+import com.app.ridelink.BuildConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -30,8 +31,8 @@ class AuthenticationManager @Inject constructor(
     private val _currentUser = MutableStateFlow<User?>(null)
     val currentUser: StateFlow<User?> = _currentUser.asStateFlow()
     
-    // Prototype bypass flag - set to true to enable manual login
-    private val isPrototypeMode = true
+    // Production authentication mode
+    private val isPrototypeMode = false
 
     init {
         checkAuthenticationStatus()
@@ -160,31 +161,30 @@ class AuthenticationManager @Inject constructor(
         }
     }
     
-    // Prototype bypass method - allows manual login without Firebase
-    fun bypassLogin(email: String = "user@example.com", displayName: String = "Current User") {
-        if (isPrototypeMode) {
+    // TODO: Remove this development helper method before production release
+    // This is a temporary bypass for development testing
+    private fun developmentBypass(email: String = "dev@example.com", displayName: String = "Dev User") {
+        // Only available in debug builds
+        if (BuildConfig.DEBUG) {
             scope.launch {
                 _authState.value = AuthState.Loading
                 try {
-                    // Use the seeded current user for prototyping
-                    val mockUser = User(
-                        id = "current_user",
+                    val devUser = User(
+                        id = "dev_user_${System.currentTimeMillis()}",
                         email = email,
                         displayName = displayName,
                         photoUrl = null,
                         phoneNumber = null,
-                        isEmailVerified = true,
+                        isEmailVerified = false, // More realistic for dev
                         createdAt = System.currentTimeMillis(),
                         updatedAt = System.currentTimeMillis()
                     )
-                    _currentUser.value = mockUser
-                    _authState.value = AuthState.Authenticated(mockUser)
+                    _currentUser.value = devUser
+                    _authState.value = AuthState.Authenticated(devUser)
                 } catch (e: Exception) {
-                    _authState.value = AuthState.Error("Bypass login failed: ${e.message}")
+                    _authState.value = AuthState.Error("Dev bypass failed: ${e.message}")
                 }
             }
-        } else {
-            _authState.value = AuthState.Error("Prototype mode is disabled")
         }
     }
 }

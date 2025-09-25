@@ -30,12 +30,12 @@ class RideLinkApp : Application() {
         applicationScope.launch {
             try {
                 Log.d("RideLink", "RideLinkApp: Starting database seeding...")
+                // Initialize database with sample data for development
                 databaseSeeder.seedDatabase()
                 Log.d("RideLink", "RideLinkApp: Database seeding completed")
-                // Auto-login as the seeded current user for testing
-                Log.d("RideLink", "RideLinkApp: Starting auto-login...")
-                authenticationManager.bypassLogin()
-                Log.d("RideLink", "RideLinkApp: Auto-login completed")
+                
+                // TODO: Remove database seeding in production
+                // TODO: Add proper app initialization logic
             } catch (e: Exception) {
                 Log.e("RideLink", "RideLinkApp: Error during initialization: ${e.message}", e)
             }
