@@ -31,15 +31,16 @@ class DatabaseSeeder @Inject constructor(
             
             Log.d("RideLink", "DatabaseSeeder: Starting fresh database seeding...")
             
-            // Create sample users
+            // Create sample users for development
+            // TODO: Remove sample data in production
             val currentUser = User(
                 id = "current_user",
-                email = "user@example.com",
-                displayName = "Current User",
+                email = "dev.user@ridelink.app",
+                displayName = "Dev User",
                 photoUrl = null,
                 phoneNumber = null,
                 isEmailVerified = true,
-                createdAt = System.currentTimeMillis(),
+                createdAt = System.currentTimeMillis() - (7 * 24 * 60 * 60 * 1000), // 1 week ago
                 updatedAt = System.currentTimeMillis()
             )
             
@@ -47,33 +48,33 @@ class DatabaseSeeder @Inject constructor(
                 currentUser,
                 User(
                     id = "user_sarah",
-                    email = "sarah.johnson@example.com",
-                    displayName = "Sarah Johnson",
+                    email = "s.johnson92@gmail.com",
+                    displayName = "Sarah J.",
                     photoUrl = null,
-                    phoneNumber = null,
+                    phoneNumber = "+1234567890",
                     isEmailVerified = true,
-                    createdAt = System.currentTimeMillis(),
-                    updatedAt = System.currentTimeMillis()
+                    createdAt = System.currentTimeMillis() - (5 * 24 * 60 * 60 * 1000), // 5 days ago
+                    updatedAt = System.currentTimeMillis() - (2 * 24 * 60 * 60 * 1000)
                 ),
                 User(
                     id = "user_mike",
-                    email = "mike.chen@example.com",
-                    displayName = "Mike Chen",
+                    email = "mchen.dev@outlook.com",
+                    displayName = "Michael Chen",
                     photoUrl = null,
                     phoneNumber = null,
-                    isEmailVerified = true,
-                    createdAt = System.currentTimeMillis(),
-                    updatedAt = System.currentTimeMillis()
+                    isEmailVerified = false,
+                    createdAt = System.currentTimeMillis() - (3 * 24 * 60 * 60 * 1000), // 3 days ago
+                    updatedAt = System.currentTimeMillis() - (1 * 24 * 60 * 60 * 1000)
                 ),
                 User(
                     id = "user_emma",
-                    email = "emma.wilson@example.com",
-                    displayName = "Emma Wilson",
+                    email = "emma.w.2024@yahoo.com",
+                    displayName = "Emma",
                     photoUrl = null,
-                    phoneNumber = null,
+                    phoneNumber = "+1987654321",
                     isEmailVerified = true,
-                    createdAt = System.currentTimeMillis(),
-                    updatedAt = System.currentTimeMillis()
+                    createdAt = System.currentTimeMillis() - (10 * 24 * 60 * 60 * 1000), // 10 days ago
+                    updatedAt = System.currentTimeMillis() - (6 * 24 * 60 * 60 * 1000)
                 ),
                 User(
                     id = "user_david",

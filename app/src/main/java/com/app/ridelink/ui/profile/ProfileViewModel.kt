@@ -116,10 +116,13 @@ class ProfileViewModel @Inject constructor(
                     if (result.isSuccess) {
                         _uiState.value = currentState.copy(user = updatedUser)
                         authenticationManager.refreshUser()
+                        // TODO: Add profile update analytics
+                        // TODO: Sync with Firebase if online
                     } else {
                         _uiState.value = ProfileUiState.Error(
                             result.exceptionOrNull()?.message ?: "Failed to update $field"
                         )
+                        // TODO: Implement retry mechanism
                     }
                 }
             } catch (e: Exception) {
@@ -129,6 +132,12 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+    
+    // TODO: Add profile validation
+    // private fun validateProfile(user: User): Boolean {
+    //     // Validate required fields
+    //     return true
+    // }
 
     fun uploadProfilePhoto(uri: Uri) {
         viewModelScope.launch {
@@ -137,6 +146,7 @@ class ProfileViewModel @Inject constructor(
                 if (currentState is ProfileUiState.Success) {
                     _uiState.value = currentState.copy(isUploadingPhoto = true)
                     
+                    // TODO: Replace with actual Firebase Storage upload
                     // Simulate photo upload process
                     kotlinx.coroutines.delay(2000)
                     
@@ -150,6 +160,7 @@ class ProfileViewModel @Inject constructor(
                             isUploadingPhoto = false
                         )
                         authenticationManager.refreshUser()
+                        // TODO: Add photo upload analytics
                     } else {
                         _uiState.value = ProfileUiState.Error(
                             result.exceptionOrNull()?.message ?: "Failed to upload photo"
@@ -163,7 +174,14 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+    
+    // TODO: Add image compression before upload
+    // private suspend fun compressImage(uri: Uri): Uri {
+    //     // Compress image to reduce file size
+    //     return uri
+    // }
 
+    // TODO: Add document type parameter
     fun uploadDocument(uri: Uri) {
         viewModelScope.launch {
             try {
@@ -171,13 +189,14 @@ class ProfileViewModel @Inject constructor(
                 if (currentState is ProfileUiState.Success) {
                     _uiState.value = currentState.copy(isUploadingDocument = true)
                     
+                    // TODO: Replace with actual document upload to Firebase Storage
                     // Simulate document upload process
                     kotlinx.coroutines.delay(3000)
                     
                     val newDocument = UserDocument(
                         id = System.currentTimeMillis().toString(),
                         name = "Document_${System.currentTimeMillis()}",
-                        type = DocumentType.OTHER,
+                        type = DocumentType.OTHER, // TODO: Allow user to select document type
                         url = "https://example.com/documents/${System.currentTimeMillis()}.pdf",
                         uploadDate = System.currentTimeMillis()
                     )
@@ -188,6 +207,7 @@ class ProfileViewModel @Inject constructor(
                         documents = updatedDocuments,
                         isUploadingDocument = false
                     )
+                    // TODO: Add document upload analytics
                 }
             } catch (e: Exception) {
                 _uiState.value = ProfileUiState.Error(
@@ -196,6 +216,12 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
+    
+    // TODO: Add document validation
+    // private fun validateDocument(uri: Uri): Boolean {
+    //     // Check file size, format, etc.
+    //     return true
+    // }
 
     fun deleteDocument(documentId: String) {
         viewModelScope.launch {
@@ -251,16 +277,20 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    // TODO: Replace mock data with actual API calls
     // Mock data loading functions
     private suspend fun loadUserRating(userId: String): Double {
+        // TODO: Fetch from rides database
         return 4.5
     }
 
     private suspend fun loadTotalRides(userId: String): Int {
+        // TODO: Query rides collection
         return 42
     }
 
     private suspend fun loadRecentReviews(userId: String): List<Review> {
+        // TODO: Fetch from reviews database with pagination
         return listOf(
             Review(
                 id = "1",
@@ -287,6 +317,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private suspend fun loadUserDocuments(userId: String): List<UserDocument> {
+        // TODO: Fetch from documents collection
         return listOf(
             UserDocument(
                 id = "doc1",
@@ -306,6 +337,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private suspend fun loadUserPreferences(userId: String): UserPreferences {
+        // TODO: Load from user preferences database
         return UserPreferences(
             notificationsEnabled = true,
             darkModeEnabled = false,
@@ -313,4 +345,12 @@ class ProfileViewModel @Inject constructor(
             autoAcceptRides = false
         )
     }
+    
+    // TODO: Add caching mechanism for profile data
+    // private val profileCache = mutableMapOf<String, Any>()
+    
+    // TODO: Add offline support
+    // private fun saveProfileOffline(user: User) {
+    //     // Save to local database
+    // }
 }

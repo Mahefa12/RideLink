@@ -45,6 +45,15 @@ fun ProfileScreen(
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     
+    LaunchedEffect(uiState) {
+        when(uiState) { // inconsistent spacing
+            is ProfileUiState.Error -> {
+                //Handle error state
+            }
+            else -> {}
+        }
+    }
+    
     // Photo picker launcher
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()

@@ -53,7 +53,7 @@ fun PaymentScreen(
     var cardNumber by remember { mutableStateOf("") }
     var expiryDate by remember { mutableStateOf("") }
     var cvc by remember { mutableStateOf("") }
-    var holderName by remember { mutableStateOf("") }
+    var holderName by remember{ mutableStateOf("") } // inconsistent spacing
     var saveCard by remember { mutableStateOf(false) }
     
     // Initialize payment service
