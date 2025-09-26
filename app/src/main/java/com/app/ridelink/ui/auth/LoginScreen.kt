@@ -119,6 +119,18 @@ fun LoginScreen(
             }
 
             Spacer(modifier = Modifier.height(8.dp))
+            
+            // Prototype bypass button - only shown when prototype mode is enabled
+            if (viewModel.isPrototypeModeEnabled()) {
+                OutlinedButton(
+                    onClick = { viewModel.bypassLogin() },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = uiState !is LoginUiState.Loading
+                ) {
+                    Text("🚀 Bypass Login (Prototype Mode)")
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 

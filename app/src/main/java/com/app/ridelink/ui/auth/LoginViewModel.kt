@@ -68,6 +68,22 @@ class LoginViewModel @Inject constructor(
         }
     }
     
+    fun bypassLogin() {
+        viewModelScope.launch {
+            _uiState.value = LoginUiState.Loading
+            try {
+                authenticationManager.bypassLoginForPrototyping()
+                _uiState.value = LoginUiState.Success("Prototype login successful!")
+            } catch (e: Exception) {
+                _uiState.value = LoginUiState.Error(
+                    e.message ?: "Prototype login failed"
+                )
+            }
+        }
+    }
+    
+    fun isPrototypeModeEnabled(): Boolean = authenticationManager.isPrototypeModeEnabled()
+    
     // TODO: Add remember me functionality
     // TODO: Add biometric authentication support
 }

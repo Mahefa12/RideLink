@@ -31,8 +31,8 @@ class AuthenticationManager @Inject constructor(
     private val _currentUser = MutableStateFlow<User?>(null)
     val currentUser: StateFlow<User?> = _currentUser.asStateFlow()
     
-    // Production authentication mode
-    private val isPrototypeMode = false
+    // Prototype mode for development - set to true to enable login bypass
+    private val isPrototypeMode = true
 
     init {
         checkAuthenticationStatus()
@@ -163,28 +163,31 @@ class AuthenticationManager @Inject constructor(
     
     // TODO: Remove this development helper method before production release
     // This is a temporary bypass for development testing
-    private fun developmentBypass(email: String = "dev@example.com", displayName: String = "Dev User") {
-        // Only available in debug builds
-        if (true) { // Debug mode check
+    fun bypassLoginForPrototyping(email: String = "prototype@ridelink.app", displayName: String = "Prototype User") {
+        // Only available when prototype mode is enabled
+        if (isPrototypeMode) {
             scope.launch {
                 _authState.value = AuthState.Loading
                 try {
                     val devUser = User(
-                        id = "dev_user_${System.currentTimeMillis()}",
+                        id = "prototype_user_${System.currentTimeMillis()}",
                         email = email,
                         displayName = displayName,
                         photoUrl = null,
                         phoneNumber = null,
-                        isEmailVerified = false, 
+                        isEmailVerified = true, 
                         createdAt = System.currentTimeMillis(),
                         updatedAt = System.currentTimeMillis()
                     )
                     _currentUser.value = devUser
                     _authState.value = AuthState.Authenticated(devUser)
                 } catch (e: Exception) {
-                    _authState.value = AuthState.Error("Dev bypass failed: ${e.message}")
+                    _authState.value = AuthState.Error("Prototype bypass failed: ${e.message}")
                 }
             }
         }
     }
+    
+    // Check if prototype mode is enabled
+    fun isPrototypeModeEnabled(): Boolean = isPrototypeMode
 }
